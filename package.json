@@ -27,7 +27,7 @@
   },
   "type": "module",
   "scripts": {
-    "start": "babel-node bot --presets=env",
+    "start": "node bot.js",
     "test": "mocha test/*.test.js"
   },
   "keywords": [
