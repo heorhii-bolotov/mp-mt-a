@@ -15,7 +15,7 @@ npm install --save @babel/polyfill
 add in package.json 
 ```json
 {
-  "start": "babel-node bot1 --presets=env"
+  "start": "babel-node bot --presets=env"
 }
 ```
 

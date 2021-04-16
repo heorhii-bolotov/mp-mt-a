@@ -2,6 +2,8 @@ process.env.NTBA_FIX_319 = 1 // telegram api bug fix
 
 import { getClientInfo } from './utils.js'
 import { investingCurrencyParse } from './web-scraper.js'
+import express from 'express'
+import bodyParser from 'body-parser'
 import mongoose from "mongoose"
 import schedule from 'node-schedule'
 import TelegramBot from 'node-telegram-bot-api'
@@ -149,3 +151,11 @@ bot.onText(/\/stop/, msg => {
 
 // Errors
 bot.on("polling_error", console.log)
+
+const app = express()
+app.listen(process.env.PORT)
+app.use(bodyParser.json())
+app.post('/' + process.env.TELEGRAM_TOKEN, (req, res) => {
+    bot.processUpdate(req.body)
+    res.sendStatus(200)
+})
