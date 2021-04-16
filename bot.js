@@ -14,12 +14,14 @@ let bot
 let job
 
 if (process.env.NODE_ENV === 'production') {
-    const token = process.env.TELEGRAM_TOKEN,
-        host = '0.0.0.0',
-        port = 443,
-        externalUrl = process.env.CUSTOM_ENV_VARIABLE || `https://${process.env.HEROKU_APP}.herokuapp.com`
-    bot = new TelegramBot(token, { webHook: { port : port, host : host } })
-    bot.setWebHook(externalUrl + ':443/bot' + token)
+    // const token = process.env.TELEGRAM_TOKEN,
+    //     host = '0.0.0.0',
+    //     port = process.env.PORT || 3000,
+    //     externalUrl = process.env.CUSTOM_ENV_VARIABLE || `https://${process.env.HEROKU_APP}.herokuapp.com`
+    // bot = new TelegramBot(token, { webHook: { port : port, host : host } })
+    // bot.setWebHook(externalUrl + ':443/bot' + token)
+    bot = new TelegramBot(process.env.TELEGRAM_TOKEN)
+    bot.setWebHook(`https://${process.env.HEROKU_URL}.herokuapp.com/` + bot.token)
 } else {
     bot = new TelegramBot(process.env.TELEGRAM_TOKEN, { polling: true })
 }
@@ -155,7 +157,7 @@ bot.on("polling_error", console.log)
 const app = express()
 app.listen(process.env.PORT)
 app.use(bodyParser.json())
-app.post('/' + process.env.TELEGRAM_TOKEN, (req, res) => {
+app.post('/' + bot.token, (req, res) => {
     bot.processUpdate(req.body)
     res.sendStatus(200)
 })
