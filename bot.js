@@ -16,7 +16,7 @@ let job
 if (process.env.NODE_ENV === 'production') {
     const token = process.env.TELEGRAM_TOKEN,
         host = '0.0.0.0',
-        port = process.env.PORT || 443,
+        port = 443,
         externalUrl = process.env.CUSTOM_ENV_VARIABLE || `https://${process.env.HEROKU_APP}.herokuapp.com`
     bot = new TelegramBot(token, { webHook: { port : port, host : host } })
     bot.setWebHook(externalUrl + ':443/bot' + token)
